@@ -1,5 +1,12 @@
-export type WeightUnit = "LBS" | "KGS";
-export type DimensionUnit = "IN" | "CM";
+export enum WeightUnit {
+  LBS = "LBS",
+  KGS = "KGS",
+}
+
+export enum DimensionUnit {
+  IN = "IN",
+  CM = "CM",
+}
 export type CurrencyCode = string;
 
 export interface Address {
@@ -14,7 +21,12 @@ export interface Address {
 
 export interface Package {
   weight: { value: number; unit: WeightUnit };
-  dimensions?: { length: number; width: number; height: number; unit: DimensionUnit };
+  dimensions?: {
+    length: number;
+    width: number;
+    height: number;
+    unit: DimensionUnit;
+  };
 }
 
 export interface RateRequest {

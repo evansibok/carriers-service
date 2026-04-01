@@ -1,0 +1,10 @@
+{
+  "response": {
+    "errors": [
+      {
+        "code": "429",
+        "message": "Too Many Requests"
+      }
+    ]
+  }
+}

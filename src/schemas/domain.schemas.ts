@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { WeightUnit, DimensionUnit } from "../types/domain";
 
 const AddressSchema = z.object({
   name: z.string().optional(),
@@ -12,14 +13,14 @@ const AddressSchema = z.object({
 
 const PackageWeightSchema = z.object({
   value: z.number().positive(),
-  unit: z.enum(["LBS", "KGS"]),
+  unit: z.nativeEnum(WeightUnit),
 });
 
 const PackageDimensionsSchema = z.object({
   length: z.number().positive(),
   width: z.number().positive(),
   height: z.number().positive(),
-  unit: z.enum(["IN", "CM"]),
+  unit: z.nativeEnum(DimensionUnit),
 });
 
 const PackageSchema = z.object({

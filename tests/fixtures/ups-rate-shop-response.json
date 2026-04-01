@@ -1,0 +1,50 @@
+{
+  "RateResponse": {
+    "Response": {
+      "ResponseStatus": {
+        "Code": "1",
+        "Description": "Success"
+      }
+    },
+    "RatedShipment": [
+      {
+        "Service": { "Code": "03", "Description": "UPS Ground" },
+        "BillingWeight": {
+          "UnitOfMeasurement": { "Code": "LBS", "Description": "Pounds" },
+          "Weight": "5.0"
+        },
+        "TransportationCharges": { "CurrencyCode": "USD", "MonetaryValue": "12.34" },
+        "ServiceOptionsCharges": { "CurrencyCode": "USD", "MonetaryValue": "0.00" },
+        "TotalCharges": { "CurrencyCode": "USD", "MonetaryValue": "12.34" }
+      },
+      {
+        "Service": { "Code": "02", "Description": "UPS 2nd Day Air" },
+        "BillingWeight": {
+          "UnitOfMeasurement": { "Code": "LBS", "Description": "Pounds" },
+          "Weight": "5.0"
+        },
+        "TransportationCharges": { "CurrencyCode": "USD", "MonetaryValue": "28.50" },
+        "ServiceOptionsCharges": { "CurrencyCode": "USD", "MonetaryValue": "0.00" },
+        "TotalCharges": { "CurrencyCode": "USD", "MonetaryValue": "28.50" },
+        "GuaranteedDelivery": {
+          "BusinessDaysInTransit": "2",
+          "DeliveryByTime": "23:00"
+        }
+      },
+      {
+        "Service": { "Code": "01", "Description": "UPS Next Day Air" },
+        "BillingWeight": {
+          "UnitOfMeasurement": { "Code": "LBS", "Description": "Pounds" },
+          "Weight": "5.0"
+        },
+        "TransportationCharges": { "CurrencyCode": "USD", "MonetaryValue": "52.75" },
+        "ServiceOptionsCharges": { "CurrencyCode": "USD", "MonetaryValue": "3.50" },
+        "TotalCharges": { "CurrencyCode": "USD", "MonetaryValue": "56.25" },
+        "GuaranteedDelivery": {
+          "BusinessDaysInTransit": "1",
+          "DeliveryByTime": "10:30"
+        }
+      }
+    ]
+  }
+}

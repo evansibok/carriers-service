@@ -4,8 +4,12 @@ import { IHttpClient, HttpResponse } from "../../types/http";
 import { RateRequest, RateQuote } from "../../types/domain";
 import { CarrierError, CarrierErrorCode } from "../../types/errors";
 import { RateRequestSchema } from "../../schemas/domain.schemas";
-import { UpsRateResponseSchema, UpsErrorResponseSchema } from "../../schemas/ups.schemas";
+import {
+  UpsRateResponseSchema,
+  UpsErrorResponseSchema,
+} from "../../schemas/ups.schemas";
 import { toUpsRateRequest, fromUpsRateResponse } from "./ups-mapper";
+import { UPS_API_VERSION } from "./ups-constants";
 
 export class UpsCarrier implements ICarrier {
   readonly carrierId = "ups";
@@ -58,7 +62,7 @@ export class UpsCarrier implements ICarrier {
     let response;
     try {
       response = await this.http.request({
-        url: `${this.baseUrl}/api/rating/v2409/${requestOption}`,
+        url: `${this.baseUrl}/api/rating/${UPS_API_VERSION}/${requestOption}`,
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -70,9 +74,17 @@ export class UpsCarrier implements ICarrier {
       });
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") {
-        throw new CarrierError(CarrierErrorCode.TIMEOUT, "UPS rate request timed out", err);
+        throw new CarrierError(
+          CarrierErrorCode.TIMEOUT,
+          "UPS rate request timed out",
+          err,
+        );
       }
-      throw new CarrierError(CarrierErrorCode.NETWORK_ERROR, "Failed to reach UPS rating endpoint", err);
+      throw new CarrierError(
+        CarrierErrorCode.NETWORK_ERROR,
+        "Failed to reach UPS rating endpoint",
+        err,
+      );
     }
 
     if (response.status === 401) {
@@ -87,9 +99,14 @@ export class UpsCarrier implements ICarrier {
     }
 
     if (response.status === 429) {
-      throw new CarrierError(CarrierErrorCode.RATE_LIMITED, "UPS rating endpoint rate limited", null, {
-        statusCode: 429,
-      });
+      throw new CarrierError(
+        CarrierErrorCode.RATE_LIMITED,
+        "UPS rating endpoint rate limited",
+        null,
+        {
+          statusCode: 429,
+        },
+      );
     }
 
     if (response.status >= 500) {

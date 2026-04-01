@@ -1,13 +1,22 @@
 import { RateRequest, RateQuote, WeightUnit } from "../../types/domain";
 import { UpsRateResponse } from "../../schemas/ups.schemas";
-import { UPS_SERVICE_NAMES } from "./ups-constants";
+import {
+  UPS_SERVICE_NAMES,
+  UpsPackagingType,
+  UpsShipmentChargeType,
+  UPS_SUBVERSION,
+} from "./ups-constants";
 
-export function toUpsRateRequest(request: RateRequest, requestOption: "Shop" | "Rate") {
-  const { origin, destination, packages, serviceCode, shipperAccountNumber } = request;
+export function toUpsRateRequest(
+  request: RateRequest,
+  requestOption: "Shop" | "Rate",
+) {
+  const { origin, destination, packages, serviceCode, shipperAccountNumber } =
+    request;
 
   const upsPackages = packages.map((pkg) => {
     const base: Record<string, unknown> = {
-      PackagingType: { Code: "02" },
+      PackagingType: { Code: UpsPackagingType.CUSTOMER_SUPPLIED },
       PackageWeight: {
         UnitOfMeasurement: { Code: pkg.weight.unit },
         Weight: String(pkg.weight.value),
@@ -44,7 +53,9 @@ export function toUpsRateRequest(request: RateRequest, requestOption: "Shop" | "
         StateProvinceCode: destination.stateCode,
         PostalCode: destination.postalCode,
         CountryCode: destination.countryCode,
-        ...(destination.isResidential ? { ResidentialAddressIndicator: "" } : {}),
+        ...(destination.isResidential
+          ? { ResidentialAddressIndicator: "" }
+          : {}),
       },
     },
     ShipFrom: {
@@ -58,8 +69,10 @@ export function toUpsRateRequest(request: RateRequest, requestOption: "Shop" | "
     },
     PaymentDetails: {
       ShipmentCharge: {
-        Type: "01",
-        BillShipper: shipperAccountNumber ? { AccountNumber: shipperAccountNumber } : {},
+        Type: UpsShipmentChargeType.TRANSPORTATION,
+        BillShipper: shipperAccountNumber
+          ? { AccountNumber: shipperAccountNumber }
+          : {},
       },
     },
     Package: upsPackages,
@@ -72,7 +85,7 @@ export function toUpsRateRequest(request: RateRequest, requestOption: "Shop" | "
   return {
     RateRequest: {
       Request: {
-        SubVersion: "2409",
+        SubVersion: UPS_SUBVERSION,
         RequestOption: requestOption,
       },
       Shipment: shipment,
@@ -80,12 +93,17 @@ export function toUpsRateRequest(request: RateRequest, requestOption: "Shop" | "
   };
 }
 
-export function fromUpsRateResponse(response: UpsRateResponse, carrierId: string): RateQuote[] {
+export function fromUpsRateResponse(
+  response: UpsRateResponse,
+  carrierId: string,
+): RateQuote[] {
   return response.RateResponse.RatedShipment.map((shipment) => {
     const serviceCode = shipment.Service.Code;
-    const serviceName = UPS_SERVICE_NAMES[serviceCode] ?? `UPS Service ${serviceCode}`;
+    const serviceName =
+      UPS_SERVICE_NAMES[serviceCode] ?? `UPS Service ${serviceCode}`;
 
-    const weightUnit = (shipment.BillingWeight.UnitOfMeasurement.Code as WeightUnit) ?? "LBS";
+    const weightUnit =
+      (shipment.BillingWeight.UnitOfMeasurement.Code as WeightUnit) ?? "LBS";
 
     return {
       carrierId,

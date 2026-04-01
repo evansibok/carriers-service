@@ -1,3 +1,14 @@
+export const UPS_API_VERSION = "v2409";
+export const UPS_SUBVERSION = "2205";
+
+export const UpsPackagingType = {
+  CUSTOMER_SUPPLIED: "02",
+} as const;
+
+export const UpsShipmentChargeType = {
+  TRANSPORTATION: "01",
+} as const;
+
 export const UPS_SERVICE_NAMES: Record<string, string> = {
   "01": "UPS Next Day Air",
   "02": "UPS 2nd Day Air",
