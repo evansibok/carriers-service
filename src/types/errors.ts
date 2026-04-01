@@ -12,6 +12,7 @@ export enum CarrierErrorCode {
   NOT_IMPLEMENTED = "NOT_IMPLEMENTED",
 }
 
+
 export class CarrierError extends Error {
   constructor(
     public readonly code: CarrierErrorCode,
