@@ -39,11 +39,18 @@ export const UpsRatedShipmentSchema = z.object({
   TransportationCharges: UpsMoneySchema,
   ServiceOptionsCharges: UpsMoneySchema,
   TotalCharges: UpsMoneySchema,
+  GuaranteedDelivery: z
+    .object({
+      BusinessDaysInTransit: z.string().optional(),
+      DeliveryByTime: z.string().optional(),
+      ScheduledDeliveryDate: z.string().optional(),
+    })
+    .optional(),
   TimeInTransit: z
     .object({
       ServiceSummary: z
         .object({
-          Guaranteed: z.object({ Code: z.string() }).optional(),
+          GuaranteedIndicator: z.string().optional(), // empty tag — presence means guaranteed
         })
         .optional(),
     })
@@ -58,7 +65,9 @@ export const UpsRateResponseSchema = z.object({
         Description: z.string(),
       }),
     }),
-    RatedShipment: z.array(UpsRatedShipmentSchema),
+    RatedShipment: z
+      .union([z.array(UpsRatedShipmentSchema), UpsRatedShipmentSchema])
+      .transform((v) => (Array.isArray(v) ? v : [v])),
   }),
 });
 
