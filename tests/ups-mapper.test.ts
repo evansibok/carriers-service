@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { toUpsRateRequest, fromUpsRateResponse } from "../../src/carriers/ups/ups-mapper";
-import { UpsRateResponseSchema } from "../../src/schemas/ups.schemas";
-import { WeightUnit, DimensionUnit } from "../../src/types/domain";
-import shopResponse from "../fixtures/ups-rate-shop-response.json";
-import singleResponse from "../fixtures/ups-rate-single-response.json";
+import { toUpsRateRequest, fromUpsRateResponse } from "../src/carriers/ups/ups-mapper";
+import { UpsRateResponseSchema } from "../src/schemas/ups.schemas";
+import { WeightUnit, DimensionUnit } from "../src/types/domain";
+import shopResponse from "./fixtures/ups-rate-shop-response.json";
+import singleResponse from "./fixtures/ups-rate-single-response.json";
 
 const baseRequest = {
   origin: {
