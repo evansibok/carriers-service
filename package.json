@@ -2,7 +2,7 @@
   "name": "carrier-integration",
   "version": "1.0.0",
   "description": "Shipping carrier integration service — UPS rate shopping with extensible architecture",
-  "type": "commonjs",
+  "type": "module",
   "main": "dist/index.js",
   "engines": {
     "node": ">=18"
@@ -18,6 +18,6 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "typescript": "^5.4.0",
-    "vitest": "^1.6.0"
+    "vitest": "^4.1.2"
   }
 }
